@@ -1,0 +1,33 @@
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+	
+
+	<button class="default-btn reset" onclick="clearDots()">Reset</button>
+	<button class="default-btn about" id="aboutBtn">About</button>
+
+	<div id="modal" class="modal">
+
+	  <!-- Modal content -->
+	  <div class="modal-content">
+	    <!-- <span class="close">&times;</span> -->
+	    <h2 class="modal-title">Dots and Figures</h2>
+	    <p>
+	    	With every click you make, the system highlights its location with a red circle.
+	    	After three clicks are made, the system draws a parallelogram with those clicks as three of its corners
+	    	and a circle with the same area and center of mass as the parallelogram.
+	    	At any time, you can drag any of the click-circles and, as you move it around, the figures will be updated accordingly.
+	    </p>
+	    <div class="exit"><button class="default-btn" id="close">Got It</button></div>
+	    <p class="madeby">Made by Lautaro Bonet - 2018</p>
+	  </div>
+
+	</div>
+
+	<canvas id="mainCanvas"></canvas>
+
+<script type="text/javascript" src="script.js"></script>
+</body>
+</html>
