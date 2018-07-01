@@ -15,6 +15,9 @@ function init() {
     canvasW = canvas.width;
     canvasH = canvas.height;
 
+   //  ctx.textBaseline = 'middle';
+  	// ctx.textAlign = "center";
+
     canvas.addEventListener("mouseup", onMouseUp);
     canvas.addEventListener("mousedown", onMouseDown);
     canvas.addEventListener("mouseout", onMouseOut);
@@ -38,7 +41,8 @@ function drawDot(x, y){
 	ctx.arc(x,y, arcDiameter/2, 0, 2*Math.PI);
 	ctx.stroke();
 
-	ctx.fillText("x:"+x+"; y:"+y, x, y);
+	// PRINT COORDINATES
+	ctx.fillText("x:"+x+"; y:"+y, x+(arcDiameter/2), y);
 }
 
 function redrawDots(){
@@ -47,8 +51,7 @@ function redrawDots(){
 		drawDot(dots[i].x, dots[i].y);
 	}
 	if(dots.length == 3){
-		drawParallelogram();
-		drawCircle();
+		drawFigures();
 	}
 }
 
@@ -74,8 +77,7 @@ function onMouseDown(e) {
 	if(dots.length <= 3){
 		drawDot(e.clientX, e.clientY);
 		if(dots.length == 3){
-			drawParallelogram();
-			drawCircle();
+			drawFigures();
 		}
 	} else {
 		dots.shift();
@@ -127,6 +129,11 @@ function onMouseOver(e){
     }
 }
 
+function drawFigures(){
+	drawParallelogram();
+	drawCircle();
+}
+
 function drawParallelogram(){
 
 	fourthDot.x = dots[0].x + (dots[2].x - dots[1].x);
@@ -172,6 +179,12 @@ function drawCircle(){
 	ctx.beginPath();
 	ctx.arc(centerX,centerY, Math.sqrt(area/Math.PI), 0, 2*Math.PI);
 	ctx.stroke();
+
+
+	// PRINT AREA
+	var areaText = "Area = "+Math.floor(area)+"px";
+	var textWidth = ctx.measureText(areaText).width;
+	ctx.fillText(areaText, centerX-(textWidth/2), centerY);
 
 }
 
