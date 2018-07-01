@@ -1,6 +1,8 @@
 var canvas = document.getElementById("mainCanvas");
 var ctx = canvas.getContext('2d');
 
+var mainTitle = document.getElementById("mainTitle");
+
 var startX;
 var startY;
 var dots = [];
@@ -22,7 +24,6 @@ function init() {
     canvas.addEventListener("mousedown", onMouseDown);
     canvas.addEventListener("mouseout", onMouseOut);
     canvas.addEventListener("mousemove", onMouseMove);
-	canvas.addEventListener("mouseover", onMouseOver);
 }
 
 function clearCanvas(){
@@ -32,6 +33,7 @@ function clearCanvas(){
 function clearDots(){
 	dots = [];
 	clearCanvas();
+	mainTitle.style.display = "block";
 }
 
 function drawDot(x, y){
@@ -72,6 +74,8 @@ function onMouseDown(e) {
         }
     }
 
+
+    mainTitle.style.display = "none"
     dots.push({x: e.clientX, y: e.clientY});
 
 	if(dots.length <= 3){
@@ -115,18 +119,6 @@ function onMouseMove(e) {
     dot.y += dy;
     dots[selectedDot] = dot;
     redrawDots();
-}
-
-function onMouseOver(e){
-	e.preventDefault();
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    for (var i = 0; i < dots.length; i++) {
-        if (dotHitTest(startX, startY, i)) {
-            canvas.style.cursor = "pointer;"
-            return;
-        }
-    }
 }
 
 function drawFigures(){
