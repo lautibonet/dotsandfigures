@@ -171,6 +171,16 @@ function onMouseUp(e){
 }
 
 function onMouseMove(e) {
+	// POINTER CURSOR
+	for (let i = 0; i < dots.length; i++) {
+        if (dotHitTest(e.clientX, e.clientY, i)) {
+            canvas.style.cursor="pointer";
+            break;
+        }else{
+        	canvas.style.cursor="auto";
+        }
+    }
+
     if (selectedDot < 0) {
         return;
     }
