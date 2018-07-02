@@ -17,9 +17,6 @@ function init() {
     canvasW = canvas.width;
     canvasH = canvas.height;
 
-   //  ctx.textBaseline = 'middle';
-  	// ctx.textAlign = "center";
-
     canvas.addEventListener("mouseup", onMouseUp);
     canvas.addEventListener("mousedown", onMouseDown);
     canvas.addEventListener("mouseout", onMouseOut);
@@ -62,6 +59,78 @@ function dotHitTest(x, y, dotIndex) {
     return (x >= (dot.x - arcDiameter/2) && x <= (dot.x + arcDiameter/2) && y >= (dot.y - arcDiameter/2) && y <= (dot.y + arcDiameter/2));
 }
 
+function drawFigures(){
+	drawParallelogram();
+	drawCircle();
+}
+
+function drawParallelogram(){
+
+	fourthDot.x = dots[0].x + (dots[2].x - dots[1].x);
+	fourthDot.y = dots[0].y + (dots[2].y - dots[1].y);
+
+	ctx.strokeStyle="#0000FF";
+
+	ctx.beginPath();
+	ctx.moveTo(dots[0].x, dots[0].y);
+	ctx.lineTo(dots[1].x, dots[1].y);
+	ctx.stroke();
+
+	ctx.moveTo(dots[1].x, dots[1].y);
+	ctx.lineTo(dots[2].x, dots[2].y);
+	ctx.stroke();
+
+	ctx.moveTo(dots[2].x, dots[2].y);
+	ctx.lineTo(fourthDot.x, fourthDot.y);
+	ctx.stroke();
+
+	ctx.moveTo(fourthDot.x, fourthDot.y);
+	ctx.lineTo(dots[0].x, dots[0].y);
+	ctx.stroke();
+
+}
+
+function drawCircle(){
+
+	// CENTER OF MASS
+	var centerX = Math.abs((dots[2].x - dots[0].x)/2) + Math.min(dots[0].x, dots[2].x);
+	var centerY = Math.abs((dots[2].y - dots[0].y)/2) + Math.min(dots[0].y, dots[2].y);
+
+	var area = calculateArea(dots[0], dots[1], dots[2]);
+
+	ctx.strokeStyle="#FFFF00";
+	ctx.beginPath();
+	ctx.arc(centerX,centerY, Math.sqrt(area/Math.PI), 0, 2*Math.PI);
+	ctx.stroke();
+
+	// PRINT AREA
+	var areaText = "Area = "+Math.floor(area)+"px";
+	var textWidth = ctx.measureText(areaText).width;
+	ctx.fillText(areaText, centerX-(textWidth/2), centerY);
+
+}
+
+function calculateArea(p, v, w){
+	// AVOIDING DIVIDING BY ZERO
+	if(w.x == v.x){
+		var aux = w;
+		w = p;
+		p = aux;
+	}
+
+	var a = (w.y - v.y)/(w.x - v.x);
+	var b = -1;
+	var c = -((a*w.x) - w.y);
+
+	var h = Math.abs(a*p.x + b * p.y + c)/(Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2)));
+	var B = Math.sqrt(Math.pow(v.y - w.y, 2) + Math.pow(v.x - w.x, 2));
+
+	return (h * B);
+}
+
+/* 
+EVENT FUNCTIONS 
+*/
 function onMouseDown(e) {
 	e.preventDefault();
     startX = e.clientX;
@@ -121,70 +190,15 @@ function onMouseMove(e) {
     redrawDots();
 }
 
-function drawFigures(){
-	drawParallelogram();
-	drawCircle();
-}
-
-function drawParallelogram(){
-
-	fourthDot.x = dots[0].x + (dots[2].x - dots[1].x);
-	fourthDot.y = dots[0].y + (dots[2].y - dots[1].y);
-
-	ctx.strokeStyle="#0000FF";
-
-	ctx.beginPath();
-	ctx.moveTo(dots[0].x, dots[0].y);
-	ctx.lineTo(dots[1].x, dots[1].y);
-	ctx.stroke();
-
-	ctx.moveTo(dots[1].x, dots[1].y);
-	ctx.lineTo(dots[2].x, dots[2].y);
-	ctx.stroke();
-
-	ctx.moveTo(dots[2].x, dots[2].y);
-	ctx.lineTo(fourthDot.x, fourthDot.y);
-	ctx.stroke();
-
-	ctx.moveTo(fourthDot.x, fourthDot.y);
-	ctx.lineTo(dots[0].x, dots[0].y);
-	ctx.stroke();
-
-}
-
-function drawCircle(){
-
-	var centerX = Math.abs((dots[2].x - dots[0].x)/2) + Math.min(dots[0].x, dots[2].x);
-	var centerY = Math.abs((dots[2].y - dots[0].y)/2) + Math.min(dots[0].y, dots[2].y);
-
-	var a = (dots[2].y - dots[1].y)/(dots[2].x - dots[1].x);
-	var b = -1;
-	var c = -((a*dots[2].x) - dots[2].y);
-
-	var h = Math.abs(a*dots[0].x + b * dots[0].y + c)/(Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2)));
-	var B = Math.sqrt(Math.pow(dots[1].y - dots[2].y, 2) + Math.pow(dots[1].x - dots[2].x, 2));
-
-	var area = h * B;
-
-	ctx.strokeStyle="#FFFF00";
-
-	ctx.beginPath();
-	ctx.arc(centerX,centerY, Math.sqrt(area/Math.PI), 0, 2*Math.PI);
-	ctx.stroke();
-
-
-	// PRINT AREA
-	var areaText = "Area = "+Math.floor(area)+"px";
-	var textWidth = ctx.measureText(areaText).width;
-	ctx.fillText(areaText, centerX-(textWidth/2), centerY);
-
-}
-
-
+/* 
+APP INITIALIZATION 
+*/
 init();
 
 
-/* ABOUT FUNCTIONS */
+/* 
+ABOUT MODAL 
+*/
 var modal = document.getElementById('modal');
 var btnAbount = document.getElementById("aboutBtn");
 var close = document.getElementById("close");
