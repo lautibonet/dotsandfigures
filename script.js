@@ -118,6 +118,11 @@ function calculateArea(p, v, w){
 		p = aux;
 	}
 
+	/* 
+	a, b, c: 
+	COEFFICIENTS OF THE GENERAL FORM OF A LINE EQUATION
+	OBTAINED FROM THE CANONICAL EQUATION
+	*/
 	var a = (w.y - v.y)/(w.x - v.x);
 	var b = -1;
 	var c = -((a*w.x) - w.y);
