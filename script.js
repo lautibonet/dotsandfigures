@@ -21,6 +21,16 @@ function init() {
 	canvas.addEventListener("mousedown", onMouseDown);
 	canvas.addEventListener("mouseout", onMouseOut);
 	canvas.addEventListener("mousemove", onMouseMove);
+	window.addEventListener("resize", resizeCanvas, false);
+}
+
+function resizeCanvas() {
+	console.log("Asd");
+
+	canvas.width = document.body.clientWidth;
+	canvas.height = document.body.clientHeight;
+	canvasW = canvas.width;
+	canvasH = canvas.height;
 }
 
 function clearCanvas() {
