@@ -1,39 +1,79 @@
-body{
-	overflow: hidden;
-	font-family: Arial, Helvetica, sans-serif;
-	margin: unset;
+* {
+    box-sizing: border-box;
 }
 
+body {
+    overflow: hidden;
+    margin: 0;
+    font-family: 'Lora', serif;
+    display: flex;
+    flex-direction: row;
+    background-color: #3e8c5a;
+}
+
+.container {
+    position: relative;
+    transition: transform 500ms ease;
+}
+
+/* APP INFO */
+
+.app-info {
+    position: relative;
+    width: 40%;
+    height: 100vh;
+    z-index: 99;
+    background-color: #000;
+    color: #fff;
+    padding: 1rem;
+    box-shadow: 0 0 4px 2px rgba(0, 0, 0, .5);
+    transition: transform 500ms ease;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 35%;
+    overflow-y: scroll;
+}
+
+.app-info img {
+    filter: invert(1);
+}
+
+.app-info img {
+    display: block;
+    margin: 1rem auto;
+}
+
+.madeby {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
 
 /* BUTTONS STYLES */
-button.reset,
-button.about{
-	position: absolute;
-}
-button.reset{
-	top: 12;
-	left: 8;
-}
-button.about{
-	top:58;
-	left: 8;
-}
-button.default-btn{
-	cursor: pointer;
-    display: inline-block;
-    height: 35px;
-    padding: 0 20px;
-    line-height: 35px;
-    background: #f44336;
-    border-radius: 5px;
-    color: #fff;
-    font-weight: 600;
-    vertical-align: middle;
-    min-width: 120px;
-    border: none;
+
+.btn-group {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
 }
 
-.main-title{
+button.default-btn {
+    cursor: pointer;
+    width: 52px;
+    height: 52px;
+    background: #000;
+    border-radius: 50%;
+    color: #fff;
+    vertical-align: middle;
+    border: none;
+    margin: .5rem 0;
+}
+
+.main-title {
     position: absolute;
     right: 50%;
     top: 10%;
@@ -42,82 +82,40 @@ button.default-btn{
     text-shadow: 0px 0px 10px #000000;
 }
 
-/* CANVAS */
-canvas#mainCanvas{
-	background-color: rgba(165, 165, 165, .75);
-}
-
-/* ABOUT MODAL STYLES */
-.modal {
-    display: none; 
+.point-info {
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin: auto;
-    z-index: 8;
-    background: rgba(0, 0, 0, 0.5);
-}
-
-.modal-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    background: #fff;
-    padding: 0 20px 5px;
-    overflow: visible;
-    border-radius: 15px 0 0 10px;
-    -webkit-transform: translateX(-50%) translateY(-50%);
-    transform: translateX(-50%) translateY(-50%);
-    overflow: auto;
-    max-height: 500px;
-}
-.modal-content img{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.modal-title{
-    text-align: center;
     color: #fff;
-    background: #f44336;
-    margin: 0 -20px 10px;
-    padding: 9px 10px 8px;
-    font-size: 1.6rem;
-    line-height: 1.2em;
-    border-radius: 10px 0 0 0;
-}
-.modal-content p{
-	font-size: 14px;
-}
-.modal-content p.madeby{
-	text-align: center;
-	font-size: 11px;
-	margin: unset;
-}
-div.exit{
-    margin: 10px 0;
-    text-align: center;
+    background-color: #000;
+    margin: .5rem 0;
+    padding: .5rem 1.5rem;
+    left: -100%;
+    min-width: 180px;
+    text-align: right;
+    transition: left 250ms ease;
 }
 
-
-/* SCROLLBAR */
-::-webkit-scrollbar {
-  width: 4px;
-  height: 5px;
-  background-color: #F5F5F5;
+.point-info.active {
+    left: 0;
 }
 
-::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-  border-radius: 5px;
-  background-color: #F5F5F5;
+.point-info>span {
+    margin-left: .5rem;
 }
 
-::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-  background-color: #79211b;
+.point-info.first {
+    top: 6rem;
+}
+
+.point-info.second {
+    top: 9rem;
+}
+
+.point-info.third {
+    top: 12rem;
+}
+
+/* CANVAS */
+
+canvas#mainCanvas {
+    background-color: #3e8c5a;
 }

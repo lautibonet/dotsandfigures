@@ -1,61 +1,85 @@
 <html>
+
 <head>
 	<link rel="stylesheet" type="text/css" href="styles.css">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+		type='text/css'>
+	<link href="https://fonts.googleapis.com/css?family=Lora&display=swap" rel="stylesheet">
 </head>
+
 <body>
-	
 
-	<button class="default-btn reset" onclick="clearDots()">Reset</button>
-	<button class="default-btn about" id="aboutBtn">About</button>
+	<div id="app-info" class="app-info">
+		<h2>Dots and Figures</h2>
+		<p>
 
-	<h1 class="main-title" id="mainTitle">Click Anywhere !</h1>
+			<b>Description</b><br />
 
-	<div id="modal" class="modal">
+			With every click you make, the system highlights its location with a red circle. <br />
+			After three clicks, the system draws a parallelogram with those points as three of its corners
+			and a circle with the same area and center of mass as the parallelogram. <br />
+			At any time, you can drag any of the click-circles and, as you move it around, the figures will be
+			updated accordingly.
+			<br /><br />
 
-	  <div class="modal-content">
-	    <h2 class="modal-title">Dots and Figures</h2>
-	    <p>
-	    	
-			<b>Description</b><br />	    	
+			<b>How does it work?</b></br>
 
-	    	With every click you make, the system highlights its location with a red circle. <br />
-	    	After three clicks are made, the system draws a parallelogram with those clicks as three of its corners
-	    	and a circle with the same area and center of mass as the parallelogram. <br />
-	    	At any time, you can drag any of the click-circles and, as you move it around, the figures will be updated accordingly.
-	    	<br /><br />
+			Once the parallelogram has been drawn, we have to get its area, which can be obtained applying the following
+			formula: <br />
 
-	    	<b>How does it work?</b></br>
+			<img src="parallelogram-area.png" height="35"><br />
 
-	    	After we've drawn the parallelogram we have to get its area, which can be gotten applying the following formula: <br />
+			So, now we have two unknown variables - <b>h</b> and <b>B</b> -
 
-	    	<img src="parallelogram-area.png" height="35"><br />
+			<img src="graphic.png" height="200"><br />
 
-	    	So, now we have two unknown variables - <b>h</b> and <b>B</b> - 
+			To find <b>h</b> we have to apply the formula of the minimum distance between a dot and a line: <br />
 
-	    	<img src="graphic.png" height="200"><br />	    	
+			<img src="distance-formula.png" height="60"><br />
 
-	    	To find <b>h</b> we have to apply the formula of the minimum distance between a dot and a line: <br />
+			And to find <b>B</b> we apply Pitagoras, being B the hipotenuse of the triangle.
 
-	    	<img src="distance-formula.png" height="60"><br />
+			<img src="hipotenuse-formula.png"><br />
 
-	    	And to find <b>B</b> we apply Pitagoras, being B the hipotenuse of the triangle.
+			After we've calculated the area, the only thing that's left to find is the <b>radius</b> of the circle
+			we want to draw.
+			We can get it by applying the formula of the area of a triangle. <br />
 
-	    	<img src="hipotenuse-formula.png"><br />
+			<img src="triangle-area.jpg">
 
-	    	After we've calculated the area, the only thing that's left to find is the <b>radius</b> of the circle we want to draw. 
-	    	We can deduce it by applying the formula of the area of a triangle. <br />
-
-	    	<img src="triangle-area.jpg">
-	    	
-	    </p>
-	    <div class="exit"><button class="default-btn" id="close">Got It</button></div>
-	    <p class="madeby">Made by Lautaro Bonet - 2018</p>
-	  </div>
-
+		</p>
 	</div>
 
-	<canvas id="mainCanvas"></canvas>
+	<div id="container" class="container">
+		<div class="btn-group">
+			<button title="Reset" class="default-btn reset" onclick="clearDots()"><i class="fa fa-refresh"></i></button>
+			<button title="Info" class="default-btn about" id="aboutBtn"><i class="fa fa-info"></i></button>
+		</div>
 
-<script type="text/javascript" src="script.js"></script>
+		<div class="point-info first" id="point-0">
+			<i>X<sub>0</sub>:</i><span class="x-coord"></span>,
+			<i>Y<sub>0</sub>:</i><span class="y-coord"></span>
+		</div>
+		<div class="point-info second" id="point-1">
+			<i>X<sub>1</sub>:</i><span class="x-coord"></span>,
+			<i>Y<sub>2</sub>:</i><span class="y-coord"></span>
+		</div>
+		<div class="point-info third" id="point-2">
+			<i>X<sub>2</sub>:</i><span class="x-coord"></span>,
+			<i>Y<sub>2</sub>:</i><span class="y-coord"></span>
+		</div>
+
+		<div class="canvas-container">
+			<h1 class="main-title" id="mainTitle">Click anywhere to start drawing!</h1>
+			<canvas id="mainCanvas"></canvas>
+		</div>
+
+		<p class="madeby">Made by Lautaro Bonet - 2019</p>
+	</div>
+
+
+
+	<script type="text/javascript" src="script.js"></script>
 </body>
+
 </html>
