@@ -6,8 +6,6 @@ body {
     overflow: hidden;
     margin: 0;
     font-family: 'Lora', serif;
-    display: flex;
-    flex-direction: row;
     background-color: #3e8c5a;
     width: 100%;
     height: 100%;
@@ -15,8 +13,6 @@ body {
 
 .container {
     position: relative;
-    transform: translateX(-620px);
-    transition: transform 500ms ease;
 }
 
 /* CANVAS */
@@ -28,9 +24,11 @@ canvas#mainCanvas {
 /* APP INFO */
 
 .app-info {
-    position: relative;
+    position: absolute;
+    left: 0;
+    top: 0;
     max-width: 620px;
-    height: 100vh;
+    height: 100%;
     z-index: 99;
     background-color: #000;
     color: #fff;
@@ -38,9 +36,6 @@ canvas#mainCanvas {
     box-shadow: 0 0 4px 2px rgba(0, 0, 0, .5);
     transform: translateX(-620px);
     transition: transform 500ms ease;
-    flex-grow: 0;
-    flex-shrink: 0;
-    flex-basis: 35%;
     overflow-y: scroll;
     text-align: justify;
 }
@@ -48,7 +43,6 @@ canvas#mainCanvas {
 @media (max-width: 768px) {
     .app-info {
         max-width: unset;
-        flex-basis: 100%;
     }
 }
 
