@@ -5,6 +5,8 @@
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
 		type='text/css'>
 	<link href="https://fonts.googleapis.com/css?family=Lora&display=swap" rel="stylesheet">
+
+	<title>JS Assignment</title>
 </head>
 
 <body>
@@ -15,25 +17,28 @@
 
 			<b>Description</b><br />
 
-			With every click you make, the system highlights its location with a red circle. <br />
-			After three clicks, the system draws a parallelogram with those points as three of its corners
+			With every click you make, the system highlights its location with a <span class="red">red circle</span>.
+			<br />
+			After three clicks, the system draws a <span class="blue">blue parallelogram</span> with those points as
+			three of its corners
 			and a circle with the same area and center of mass as the parallelogram. <br />
-			At any time, you can drag any of the click-circles and, as you move it around, the figures will be
+			At any time, you can drag any of the circles and, as you move it around, the figures will be
 			updated accordingly.
 			<br /><br />
 
-			<b>How does it work?</b></br>
+			<b>Explanation</b></br>
 
-			Once the parallelogram has been drawn, we have to get its area, which can be obtained applying the following
+			Once the parallelogram has been drawn, we can obtain its area by applying the following
 			formula: <br />
 
 			<img src="parallelogram-area.png" height="35"><br />
 
-			So, now we have two unknown variables - <b>h</b> and <b>B</b> -
+			Where <i>b</i> is the base of the parallelogram, and <i>h</i> the height.<br />
+			So, now we have two unknown variables - <b>b</b> and <b>h</b> -
 
 			<img src="graphic.png" height="200"><br />
 
-			To find <b>h</b> we have to apply the formula of the minimum distance between a dot and a line: <br />
+			To find <b>h</b> we have to apply the formula of the minimum distance between a point and a line: <br />
 
 			<img src="distance-formula.png" height="60"><br />
 
@@ -41,7 +46,8 @@
 
 			<img src="hipotenuse-formula.png"><br />
 
-			After we've calculated the area, the only thing that's left to find is the <b>radius</b> of the circle
+			After we've calculated the area, the only thing that's left to find is the <b>radius</b> of the <span
+				class="yellow">yellow circle</span>
 			we want to draw.
 			We can get it by applying the formula of the area of a triangle. <br />
 

@@ -1,17 +1,20 @@
 var canvas = document.getElementById("mainCanvas");
 var ctx = canvas.getContext('2d');
-
 var mainTitle = document.getElementById("mainTitle");
 
-var startX;
-var startY;
-var dots = [];
-var fourthDot = {};
-const arcDiameter = 11;
-var selectedDot = -1;
+var _startX;
+var _startY;
+var _dots = [];
+var _selectedDot = -1;
+const _arcDiameter = 11;
+
+// allows dot shifting if the user continues clicking the canvas after the shapes have been drawn.
+// The systems redraws the shapes with the new point.
+const _allowDotShifting = false;
 
 function init() {
 
+	// inits the canvas with the height and width of the client
 	canvas.width = document.body.clientWidth;
 	canvas.height = document.body.clientHeight;
 	canvasW = canvas.width;
@@ -21,12 +24,10 @@ function init() {
 	canvas.addEventListener("mousedown", onMouseDown);
 	canvas.addEventListener("mouseout", onMouseOut);
 	canvas.addEventListener("mousemove", onMouseMove);
-	window.addEventListener("resize", resizeCanvas, false);
+	window.addEventListener("resize", resizeCanvas);
 }
 
 function resizeCanvas() {
-	console.log("Asd");
-
 	canvas.width = document.body.clientWidth;
 	canvas.height = document.body.clientHeight;
 	canvasW = canvas.width;
@@ -39,7 +40,7 @@ function clearCanvas() {
 
 function clearDots() {
 	resetCoordsTextBox();
-	dots = [];
+	_dots = [];
 	clearCanvas();
 	mainTitle.style.display = "block";
 }
@@ -48,29 +49,28 @@ function drawDot(x, y, index) {
 	ctx.strokeStyle = "#FF0000";
 
 	ctx.beginPath();
-	ctx.arc(x, y, arcDiameter / 2, 0, 2 * Math.PI);
+	ctx.arc(x, y, _arcDiameter / 2, 0, 2 * Math.PI);
 	ctx.stroke();
 
 	// PRINT COORDINATES
 	updateCoordsTextBox();
-	// ctx.fillText("x:" + x + "; y:" + y, x + (arcDiameter / 2), y);
 	ctx.font = "20px Lora";
-	ctx.fillText("P" + index, x + arcDiameter, y);
+	ctx.fillText("P" + index, x + _arcDiameter, y);
 }
 
 function updateCoordsTextBox() {
 	let element;
-	for (let i = 0; i < dots.length; i++) {
+	for (let i = 0; i < _dots.length; i++) {
 		element = document.getElementById('point-' + i);
-		element.getElementsByClassName("x-coord")[0].textContent = dots[i].x;
-		element.getElementsByClassName("y-coord")[0].textContent = dots[i].y;
+		element.getElementsByClassName("x-coord")[0].textContent = parseInt(_dots[i].x);
+		element.getElementsByClassName("y-coord")[0].textContent = parseInt(_dots[i].y);
 		element.classList.add('active');
 	}
 }
 
 function resetCoordsTextBox() {
 	let element;
-	for (let i = 0; i < dots.length; i++) {
+	for (let i = 0; i < _dots.length; i++) {
 		element = document.getElementById('point-' + i);
 		element.classList.remove('active');
 	}
@@ -78,17 +78,18 @@ function resetCoordsTextBox() {
 
 function redrawDots() {
 	clearCanvas();
-	for (let i = 0; i < dots.length; i++) {
-		drawDot(dots[i].x, dots[i].y, i);
+	for (let i = 0; i < _dots.length; i++) {
+		drawDot(_dots[i].x, _dots[i].y, i);
 	}
-	if (dots.length == 3) {
+	if (_dots.length == 3) {
 		drawFigures();
 	}
 }
 
+// checks if the user hit a dot when he clicked the canvas
 function dotHitTest(x, y, dotIndex) {
-	var dot = dots[dotIndex];
-	return (x >= (dot.x - arcDiameter) && x <= (dot.x + arcDiameter) && y >= (dot.y - arcDiameter) && y <= (dot.y + arcDiameter));
+	var dot = _dots[dotIndex];
+	return (x >= (dot.x - _arcDiameter) && x <= (dot.x + _arcDiameter) && y >= (dot.y - _arcDiameter) && y <= (dot.y + _arcDiameter));
 }
 
 function drawFigures() {
@@ -98,26 +99,30 @@ function drawFigures() {
 
 function drawParallelogram() {
 
-	fourthDot.x = dots[0].x + (dots[2].x - dots[1].x);
-	fourthDot.y = dots[0].y + (dots[2].y - dots[1].y);
+	if (_dots.length < 3) return;
+
+	// calclulates the fourth point of the parallelogram
+	let fourthDot = {};
+	fourthDot.x = _dots[0].x + (_dots[2].x - _dots[1].x);
+	fourthDot.y = _dots[0].y + (_dots[2].y - _dots[1].y);
 
 	ctx.strokeStyle = "#0000FF";
 
 	ctx.beginPath();
-	ctx.moveTo(dots[0].x, dots[0].y);
-	ctx.lineTo(dots[1].x, dots[1].y);
+	ctx.moveTo(_dots[0].x, _dots[0].y);
+	ctx.lineTo(_dots[1].x, _dots[1].y);
 	ctx.stroke();
 
-	ctx.moveTo(dots[1].x, dots[1].y);
-	ctx.lineTo(dots[2].x, dots[2].y);
+	ctx.moveTo(_dots[1].x, _dots[1].y);
+	ctx.lineTo(_dots[2].x, _dots[2].y);
 	ctx.stroke();
 
-	ctx.moveTo(dots[2].x, dots[2].y);
+	ctx.moveTo(_dots[2].x, _dots[2].y);
 	ctx.lineTo(fourthDot.x, fourthDot.y);
 	ctx.stroke();
 
 	ctx.moveTo(fourthDot.x, fourthDot.y);
-	ctx.lineTo(dots[0].x, dots[0].y);
+	ctx.lineTo(_dots[0].x, _dots[0].y);
 	ctx.stroke();
 
 }
@@ -125,10 +130,10 @@ function drawParallelogram() {
 function drawCircle() {
 
 	// CENTER OF MASS
-	var centerX = Math.abs((dots[2].x - dots[0].x) / 2) + Math.min(dots[0].x, dots[2].x);
-	var centerY = Math.abs((dots[2].y - dots[0].y) / 2) + Math.min(dots[0].y, dots[2].y);
+	var centerX = Math.abs((_dots[2].x - _dots[0].x) / 2) + Math.min(_dots[0].x, _dots[2].x);
+	var centerY = Math.abs((_dots[2].y - _dots[0].y) / 2) + Math.min(_dots[0].y, _dots[2].y);
 
-	var area = calculateArea(dots[0], dots[1], dots[2]);
+	var area = calculateArea(_dots[0], _dots[1], _dots[2]);
 
 	ctx.strokeStyle = "#FFFF00";
 	ctx.beginPath();
@@ -178,51 +183,52 @@ EVENT FUNCTIONS
 */
 function onMouseDown(e) {
 	e.preventDefault();
-	// var b = canvas.getBoundingClientRect();
-	// console.log(b);
-	// startX = e.clientX - b.left;
-	// startY = e.clientY - b.top;
-	let pos = getMousePosInCanvas(e);
-	startX = pos.x;
-	startY = pos.y;
 
-	for (var i = 0; i < dots.length; i++) {
-		if (dotHitTest(startX, startY, i)) {
-			selectedDot = i;
+	let pos = getMousePosInCanvas(e);
+	_startX = pos.x;
+	_startY = pos.y;
+
+	for (var i = 0; i < _dots.length; i++) {
+		if (dotHitTest(_startX, _startY, i)) {
+			_selectedDot = i;
 			return;
 		}
 	}
 
-	mainTitle.style.display = "none"
-	dots.push({ x: startX, y: startY });
+	mainTitle.style.display = "none";
 
-	if (dots.length <= 3) {
-		drawDot(startX, startY, dots.length - 1);
-		if (dots.length == 3) {
+	if (_dots.length < 3) {
+		_dots.push({ x: _startX, y: _startY });
+		drawDot(_startX, _startY, _dots.length - 1);
+		if (_dots.length == 3) {
 			drawFigures();
 		}
-	} else {
-		dots.shift();
-		redrawDots();
+	}
+	else {
+		if (_allowDotShifting) {
+			_dots.push({ x: _startX, y: _startY });
+			_dots.shift();
+			redrawDots();
+		}
 	}
 }
 
 function onMouseOut(e) {
 	e.preventDefault();
-	selectedDot = -1;
+	_selectedDot = -1;
 	redrawDots();
 }
 
 function onMouseUp(e) {
 	e.preventDefault();
-	selectedDot = -1;
+	_selectedDot = -1;
 	redrawDots();
 }
 
 function onMouseMove(e) {
 	// POINTER CURSOR
 	var pos = getMousePosInCanvas(e);
-	for (let i = 0; i < dots.length; i++) {
+	for (let i = 0; i < _dots.length; i++) {
 		if (dotHitTest(pos.x, pos.y, i)) {
 			canvas.style.cursor = "pointer";
 			break;
@@ -231,19 +237,19 @@ function onMouseMove(e) {
 		}
 	}
 
-	if (selectedDot == -1) {
+	if (_selectedDot == -1) {
 		return;
 	}
 
-	var dx = pos.x - startX;
-	var dy = pos.y - startY;
-	startX = pos.x;
-	startY = pos.y;
+	var dx = pos.x - _startX;
+	var dy = pos.y - _startY;
+	_startX = pos.x;
+	_startY = pos.y;
 
-	var dot = dots[selectedDot];
+	var dot = _dots[_selectedDot];
 	dot.x += dx;
 	dot.y += dy;
-	dots[selectedDot] = dot;
+	_dots[_selectedDot] = dot;
 	redrawDots();
 }
 

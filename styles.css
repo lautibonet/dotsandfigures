@@ -17,6 +17,12 @@ body {
     transition: transform 500ms ease;
 }
 
+/* CANVAS */
+
+canvas#mainCanvas {
+    background-color: #3e8c5a;
+}
+
 /* APP INFO */
 
 .app-info {
@@ -34,6 +40,19 @@ body {
     flex-shrink: 0;
     flex-basis: 35%;
     overflow-y: scroll;
+    text-align: justify;
+}
+
+.app-info p>span.red {
+    color: #ff4343;
+}
+
+.app-info p>span.yellow {
+    color: #FFFF00;
+}
+
+.app-info p>span.blue {
+    color: #9090ff;
 }
 
 .app-info img {
@@ -42,7 +61,7 @@ body {
 
 .app-info img {
     display: block;
-    margin: 1rem auto;
+    margin: .5rem auto;
 }
 
 .madeby {
@@ -50,6 +69,17 @@ body {
     bottom: 1rem;
     left: 50%;
     transform: translateX(-50%);
+}
+
+/* TITLES  */
+
+.main-title {
+    position: absolute;
+    right: 50%;
+    top: 10%;
+    transform: translateX(50%);
+    color: rgba(255, 255, 255, .8);
+    text-shadow: 0px 0px 10px #000000;
 }
 
 /* BUTTONS STYLES */
@@ -73,15 +103,6 @@ button.default-btn {
     vertical-align: middle;
     border: none;
     margin: .5rem 0;
-}
-
-.main-title {
-    position: absolute;
-    right: 50%;
-    top: 10%;
-    transform: translateX(50%);
-    color: rgba(255, 255, 255, .8);
-    text-shadow: 0px 0px 10px #000000;
 }
 
 .point-info {
@@ -114,10 +135,4 @@ button.default-btn {
 
 .point-info.third {
     top: 12rem;
-}
-
-/* CANVAS */
-
-canvas#mainCanvas {
-    background-color: #3e8c5a;
 }
