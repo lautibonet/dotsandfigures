@@ -265,19 +265,22 @@ APP INFO
 var _menuShown = false;
 var aboutBtn = document.getElementById("aboutBtn");
 var appInfo = document.getElementById("app-info");
+var closeAppInfo = document.getElementById("close-app-info");
 var container = document.getElementById("container");
 
 appInfo.style.transform = 'translateX(-' + appInfo.offsetWidth + 'px)';
 container.style.transform = 'translateX(-' + appInfo.offsetWidth + 'px)';
 
-aboutBtn.onclick = function () {
-	console.log(appInfo.offsetWidth);
+aboutBtn.onclick = toggleAppInfo;
+closeAppInfo.onclick = toggleAppInfo;
+
+function toggleAppInfo() {
 	if (_menuShown) {
 		appInfo.style.transform = 'translateX(-' + appInfo.offsetWidth + 'px)';
 		container.style.transform = 'translateX(-' + appInfo.offsetWidth + 'px)';
 	} else {
-		appInfo.style.transform = 'none';
-		container.style.transform = 'none';
+		appInfo.style.transform = 'translateX(0)';
+		container.style.transform = 'translateX(0)';
 	}
 	_menuShown = !_menuShown;
 }
