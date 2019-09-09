@@ -27,11 +27,15 @@ function init() {
 	window.addEventListener("resize", resizeCanvas);
 }
 
+// for responsive
 function resizeCanvas() {
 	canvas.width = document.body.clientWidth;
 	canvas.height = document.body.clientHeight;
 	canvasW = canvas.width;
 	canvasH = canvas.height;
+	// resize containers
+	appInfo.style.transform = 'translateX(-' + appInfo.offsetWidth + 'px)';
+	container.style.transform = 'translateX(-' + appInfo.offsetWidth + 'px)';
 }
 
 function clearCanvas() {
