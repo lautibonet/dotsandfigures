@@ -22,11 +22,11 @@ function init() {
 
 	canvas.addEventListener("mousedown", function (e) { onMouseDown(e, "mousedown"); });
 	canvas.addEventListener("touchstart", function (e) { onMouseDown(e, "touchstart"); });
+	canvas.addEventListener("mousemove", function (e) { onMouseMove(e, "mousemove"); });
+	canvas.addEventListener("touchmove", function (e) { onMouseMove(e, "touchmove"); });
 	canvas.addEventListener("mouseup", onMouseUp);
 	canvas.addEventListener("touchend", onMouseUp);
 	canvas.addEventListener("mouseout", onMouseOut);
-	canvas.addEventListener("mousemove", function (e) { onMouseMove(e, "mousemove"); });
-	canvas.addEventListener("touchmove", function (e) { onMouseMove(e, "touchmove"); });
 	window.addEventListener("resize", resizeCanvas);
 }
 
