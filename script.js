@@ -20,10 +20,13 @@ function init() {
 	canvasW = canvas.width;
 	canvasH = canvas.height;
 
+	canvas.addEventListener("mousedown", function (e) { onMouseDown(e, "mousedown"); });
+	canvas.addEventListener("touchstart", function (e) { onMouseDown(e, "touchstart"); });
 	canvas.addEventListener("mouseup", onMouseUp);
-	canvas.addEventListener("mousedown", onMouseDown);
+	canvas.addEventListener("touchend", onMouseUp);
 	canvas.addEventListener("mouseout", onMouseOut);
-	canvas.addEventListener("mousemove", onMouseMove);
+	canvas.addEventListener("mousemove", function (e) { onMouseMove(e, "mousemove"); });
+	canvas.addEventListener("touchmove", function (e) { onMouseMove(e, "touchmove"); });
 	window.addEventListener("resize", resizeCanvas);
 }
 
@@ -35,6 +38,7 @@ function resizeCanvas() {
 	canvasH = canvas.height;
 	// resize containers
 	appInfo.style.transform = 'translateX(-' + appInfo.offsetWidth + 'px)';
+	redrawDots();
 }
 
 function clearCanvas() {
@@ -142,6 +146,8 @@ function drawParallelogram() {
 
 function drawCircle() {
 
+	if (_dots.length < 3) return;
+
 	// CENTER OF MASS
 	var centerX = Math.abs((_dots[2].x - _dots[0].x) / 2) + Math.min(_dots[0].x, _dots[2].x);
 	var centerY = Math.abs((_dots[2].y - _dots[0].y) / 2) + Math.min(_dots[0].y, _dots[2].y);
@@ -184,21 +190,30 @@ function calculateArea() {
 	return (h * B);
 }
 
-function getMousePosInCanvas(e) {
+// get coords by event type (desktop or mobile)
+function getMousePosInCanvas(e, eventType) {
+	let eventRoot = (eventType.indexOf('mouse') != -1) ? 'mouse' : 'touch';
 	var b = canvas.getBoundingClientRect();
-	return {
-		x: e.clientX - b.left,
-		y: e.clientY - b.top
+	switch (eventRoot) {
+		case 'mouse':
+			return {
+				x: e.clientX - b.left,
+				y: e.clientY - b.top
+			}
+		case 'touch':
+			return {
+				x: (event.targetTouches[0] ? event.targetTouches[0].pageX : event.changedTouches[event.changedTouches.length - 1].pageX) - b.left,
+				y: (event.targetTouches[0] ? event.targetTouches[0].pageY : event.changedTouches[event.changedTouches.length - 1].pageY) - b.top
+			}
 	}
 }
 
 /* 
 EVENT FUNCTIONS 
 */
-function onMouseDown(e) {
+function onMouseDown(e, eventType) {
 	e.preventDefault();
-
-	let pos = getMousePosInCanvas(e);
+	let pos = getMousePosInCanvas(e, eventType);
 	_startX = pos.x;
 	_startY = pos.y;
 
@@ -239,9 +254,9 @@ function onMouseUp(e) {
 	redrawDots();
 }
 
-function onMouseMove(e) {
+function onMouseMove(e, eventType) {
 	// POINTER CURSOR
-	var pos = getMousePosInCanvas(e);
+	var pos = getMousePosInCanvas(e, eventType);
 	for (let i = 0; i < _dots.length; i++) {
 		if (dotHitTest(pos.x, pos.y, i)) {
 			canvas.style.cursor = "pointer";
