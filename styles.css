@@ -147,19 +147,19 @@ button.default-btn {
 }
 
 .point-info.first {
-    top: 6rem;
+    top: 3rem;
 }
 
 .point-info.second {
-    top: 9rem;
+    top: 6rem;
 }
 
 .point-info.third {
-    top: 12rem;
+    top: 9rem;
 }
 
 .area-info {
-    top: 16rem;
+    top: 13rem;
 }
 
 /* SCROLLBAR */
