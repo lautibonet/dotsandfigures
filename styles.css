@@ -126,7 +126,7 @@ button.default-btn {
     margin: .5rem 0;
 }
 
-.point-info {
+.point-info, .area-info {
     position: absolute;
     color: #fff;
     background-color: #000;
@@ -138,11 +138,11 @@ button.default-btn {
     transition: left 250ms ease;
 }
 
-.point-info.active {
+.area-info.active, .point-info.active {
     left: 0;
 }
 
-.point-info>span {
+.area-info>span, .point-info>span {
     margin-left: .5rem;
 }
 
@@ -156,6 +156,10 @@ button.default-btn {
 
 .point-info.third {
     top: 12rem;
+}
+
+.area-info {
+    top: 16rem;
 }
 
 /* SCROLLBAR */

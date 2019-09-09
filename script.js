@@ -63,20 +63,30 @@ function drawDot(x, y, index) {
 
 function updateCoordsTextBox() {
 	let element;
+	// update coords
 	for (let i = 0; i < _dots.length; i++) {
 		element = document.getElementById('point-' + i);
 		element.getElementsByClassName("x-coord")[0].textContent = parseInt(_dots[i].x);
 		element.getElementsByClassName("y-coord")[0].textContent = parseInt(_dots[i].y);
 		element.classList.add('active');
 	}
+	// update area
+	if (_dots.length < 3) return;
+	element = document.getElementById("area-info");
+	element.getElementsByClassName("area")[0].textContent = Math.floor(calculateArea()) + "px";
+	element.classList.add('active');
 }
 
 function resetCoordsTextBox() {
 	let element;
+	// reset coords
 	for (let i = 0; i < _dots.length; i++) {
 		element = document.getElementById('point-' + i);
 		element.classList.remove('active');
 	}
+	// reset area
+	element = document.getElementById("area-info");
+	element.classList.remove('active');
 }
 
 function redrawDots() {
@@ -136,21 +146,22 @@ function drawCircle() {
 	var centerX = Math.abs((_dots[2].x - _dots[0].x) / 2) + Math.min(_dots[0].x, _dots[2].x);
 	var centerY = Math.abs((_dots[2].y - _dots[0].y) / 2) + Math.min(_dots[0].y, _dots[2].y);
 
-	var area = calculateArea(_dots[0], _dots[1], _dots[2]);
+	var area = calculateArea();
 
 	ctx.strokeStyle = "#FFFF00";
 	ctx.beginPath();
 	ctx.arc(centerX, centerY, Math.sqrt(area / Math.PI), 0, 2 * Math.PI);
 	ctx.stroke();
 
-	// PRINT AREA
-	var areaText = "Area = " + Math.floor(area) + "px";
-	var textWidth = ctx.measureText(areaText).width;
-	ctx.fillText(areaText, centerX - (textWidth / 2), centerY);
-
 }
 
-function calculateArea(p, v, w) {
+function calculateArea() {
+
+	if (_dots.length < 3) return;
+	let p = _dots[0];
+	let v = _dots[1];
+	let w = _dots[2];
+
 	// AVOIDING DIVIDING BY ZERO
 	if (w.x == v.x) {
 		var aux = w;
