@@ -9,7 +9,7 @@ var _selectedDot = -1;
 const _arcDiameter = 11;
 
 // allows dot shifting if the user continues clicking the canvas after the shapes have been drawn.
-// The systems redraws the shapes with the new point.
+// the system redraws the shapes with the new point.
 const _allowDotShifting = false;
 
 function init() {
@@ -17,8 +17,6 @@ function init() {
 	// inits the canvas with the height and width of the client
 	canvas.width = document.body.clientWidth;
 	canvas.height = document.body.clientHeight;
-	canvasW = canvas.width;
-	canvasH = canvas.height;
 
 	canvas.addEventListener("mousedown", function (e) { onMouseDown(e, "mousedown"); });
 	canvas.addEventListener("touchstart", function (e) { onMouseDown(e, "touchstart"); });
@@ -34,8 +32,6 @@ function init() {
 function resizeCanvas() {
 	canvas.width = document.body.clientWidth;
 	canvas.height = document.body.clientHeight;
-	canvasW = canvas.width;
-	canvasH = canvas.height;
 	// resize containers
 	appInfo.style.transform = 'translateX(-' + appInfo.offsetWidth + 'px)';
 	redrawDots();
@@ -164,6 +160,7 @@ function drawCircle() {
 function calculateArea() {
 
 	if (_dots.length < 3) return;
+
 	let p = _dots[0];
 	let v = _dots[1];
 	let w = _dots[2];
@@ -202,8 +199,8 @@ function getMousePosInCanvas(e, eventType) {
 			}
 		case 'touch':
 			return {
-				x: (event.targetTouches[0] ? event.targetTouches[0].pageX : event.changedTouches[event.changedTouches.length - 1].pageX) - b.left,
-				y: (event.targetTouches[0] ? event.targetTouches[0].pageY : event.changedTouches[event.changedTouches.length - 1].pageY) - b.top
+				x: (e.targetTouches[0] ? e.targetTouches[0].pageX : e.changedTouches[e.changedTouches.length - 1].pageX) - b.left,
+				y: (e.targetTouches[0] ? e.targetTouches[0].pageY : e.changedTouches[e.changedTouches.length - 1].pageY) - b.top
 			}
 	}
 }
@@ -229,9 +226,6 @@ function onMouseDown(e, eventType) {
 	if (_dots.length < 3) {
 		_dots.push({ x: _startX, y: _startY });
 		drawDot(_startX, _startY, _dots.length - 1);
-		if (_dots.length == 3) {
-			drawFigures();
-		}
 	}
 	else {
 		if (_allowDotShifting) {
